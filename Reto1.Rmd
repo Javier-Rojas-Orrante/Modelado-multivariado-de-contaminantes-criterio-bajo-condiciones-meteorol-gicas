@@ -1,0 +1,56 @@
+---
+title: "Reto"
+author: "Daniel Gonzalez"
+date: "2025-08-20"
+output: html_document
+---
+```{r}
+library("imputeTS")
+
+centro <- read.csv("/Users/danielgonzalez/Downloads/centro1.csv")
+sur <- read.csv("/Users/danielgonzalez/Downloads/sur1.csv")
+suroeste <- read.csv("/Users/danielgonzalez/Downloads/suroeste1.csv")
+```
+
+```{r}
+colSums(is.na(sur))
+```
+
+```{r}
+
+library(imputeTS)
+
+imputar <- function(datos) {
+  for (i in 1:ncol(datos)) {                  # recorrer todas las columnas
+    if (is.numeric(datos[[i]])) {            # solo imputar columnas numéricas
+      datos[[i]] <- na_kalman(datos[[i]])   # reemplazar la columna con datos imputados
+    }
+  }
+  return(datos)
+}
+
+centroW <- imputar(centro)
+surW    <- imputar(sur)
+suroesteW <- imputar(suroeste)
+
+```
+
+```{r}
+# Instalar si no lo tienes
+install.packages("writexl")
+
+# Cargar paquete
+library(writexl)
+
+# Guardar un DataFrame a Excel
+write_xlsx(surW, "/Users/danielgonzalez/Downloads/surW.xlsx")
+write_xlsx(centroW, "/Users/danielgonzalez/Downloads/centroW.xlsx")
+write_xlsx(suroesteW, "/Users/danielgonzalez/Downloads/suroesteW.xlsx")
+
+
+```
+
+
+
+
+
