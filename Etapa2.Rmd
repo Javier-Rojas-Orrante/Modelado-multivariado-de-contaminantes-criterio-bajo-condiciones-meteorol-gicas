@@ -1,0 +1,45 @@
+---
+title: "Etapa2"
+output: html_document
+date: "2025-08-28"
+---
+
+```{r}
+df = read.csv('df_final.csv')
+head(df)
+```
+
+```{r}
+dim(df)
+```
+Hay 16 columnas y 41608 registros, porque juntamos el dataser de Centro, Sur y Suroeste, que esas son las áreas con las que queremos trabajar. 
+
+```{r}
+library(psych)
+psych::describe(df_filtrado)
+```
+
+```{r}
+library(dplyr)
+df %>%
+  select(-Fecha.y.hora) %>%
+  boxplot()
+```
+
+```{r}
+df_filtrado <- df %>% select(-Fecha.y.hora)
+
+for (col in names(df_filtrado)) {
+  hist(df_filtrado[[col]],
+       main = paste("Histograma de", col),
+       xlab = col,
+       col = "lightblue",
+       breaks = 30)
+}
+```
+
+```{r}
+corrplot::corrplot(cor(df_filtrado), method = "color", type="upper")
+
+```
+
